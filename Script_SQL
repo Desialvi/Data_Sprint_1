@@ -1,0 +1,82 @@
+use test;
+CREATE TABLE Libros
+(
+ID INT auto_increment PRIMARY KEY,
+TITULO varchar(255),
+AUTOR varchar(255),
+AÑO INT,
+EDITORIAL varchar(255)
+);
+-- Ejercicio 2
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (1, "ODISEA", "HOMERO2", 2017, "AUSTRAL");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (2, "DON QUIJOTE DE LA MANCHA", "Miguel de Cervantes", 2015, "AUSTRAL");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (3, "El Código Da Vinci", "Dan Brown", 2023, "BOOKET");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (4, "Y NO QUEDO NINGUNO", "Agatha Christie", 2023, "BOOKET");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (5, "Alicia en el país de Las Maravillas", "Lewis Carroll", 2016, "AUSTRAL");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (6, "Las Aventuras de Sherlock Holmes", "Arthur Conan Doyle", 2022, "BOOKET");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (7, "El Hobbit", "J.R.R. Tolkien", 2022, "BOOKET");
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (8, "El Señor de Los Anillos", "J.R.R. Tolkien", 2016, "BOOKET");
+
+-- Ejercicio 3
+
+-- Muestra todos los libros de la tabla Libros.
+
+SELECT * FROM libros;
+
+-- Muestra los libros publicados después de 2010.
+
+SELECT * FROM libros
+WHERE AÑO> '2020';
+
+-- Muestra los libros escritos por un autor específico que elijas.
+
+SELECT * FROM libros
+WHERE AUTOR = 'J.R.R. Tolkien';
+
+-- Muestra los libros publicados por una editorial específica que elijas.
+
+SELECT * FROM libros
+WHERE EDITORIAL = 'BOOKET';
+
+-- Paso 4: Eliminación de datos
+
+DELETE FROM libros WHERE 
+AUTOR='HOMERO2';
+
+SELECT * FROM libros;
+-- SET SQL_SAFE_UPDATES=0;
+
+-- Paso 5: Desafío adicional (opcional)
+-- Agrega al menos dos libros más a la tabla.
+
+INSERT Libros (ID, TITULO, AUTOR, AÑO, EDITORIAL)
+VALUES (1, "LA ODISEA", "HOMERO", 2017, "AUSTRAL"),
+(9, "ARSENE LUPIN Gentleman cambrioleur", "Maurice Leblanc", 1907, "Pierre Lafitte & Cte. Editeurs");
+
+SELECT * FROM libros;
+
+-- Realiza una consulta que combine múltiples condiciones utilizando AND y OR. Por
+-- ejemplo, muestra los libros escritos por un autor específico y publicados después de
+-- cierto año
+
+SELECT * FROM libros
+WHERE (AUTOR = 'J.R.R. Tolkien') OR (AUTOR = 'Dan Brown');
+
+
+SELECT * FROM libros
+WHERE ((AUTOR = 'J.R.R. Tolkien') OR (AUTOR = 'Dan Brown')) AND (AÑO >= 2020);
