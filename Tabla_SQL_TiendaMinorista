@@ -1,0 +1,114 @@
+SET SQL_SAFE_UPDATES=0;
+SET FOREIGN_KEY_CHECKS=0;
+USE minorista;
+
+-- TAABLAS DE DIMENSIONES 
+
+-- Tabla Producto
+CREATE TABLE Producto (
+    IDProducto INT PRIMARY KEY,
+    NombreProducto VARCHAR(255),
+    Categoria VARCHAR(50),
+    Precio DECIMAL(10, 2)
+);
+
+-- Tabla Tiempo
+CREATE TABLE Tiempo (
+	IDTiempo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Fecha DATE,
+    Mes INT,
+    Trimestre INT,
+    Año INT,
+    DiaSemana VARCHAR(20),
+    Festivo BOOLEAN
+);
+
+-- Tabla Ubicacion
+CREATE TABLE Ubicacion (
+    ID_Ubicacion INT PRIMARY KEY,
+    NombreTienda VARCHAR(255),
+    Provincia VARCHAR(100),
+    Localidad VARCHAR(50),
+    Pais VARCHAR(50),
+    CodigoPostal VARCHAR(15)
+);
+
+-- Tabla Cliente (opcional)
+CREATE TABLE Cliente (
+    IDCliente INT PRIMARY KEY,
+    NombreCliente VARCHAR(255),
+    Segmento VARCHAR(50)
+);
+
+-- Tabla Ordenes (Tabla de hechos)
+CREATE TABLE Ordenes (
+    IDorden INT PRIMARY KEY,
+    FechaVenta INT,
+    IDProducto INT,
+    ID_Ubicacion INT,
+    IDCliente INT, 
+    CantidadVendida INT,
+    Ingresos DECIMAL(10, 2),
+    FOREIGN KEY (IDProducto) REFERENCES Producto(IDProducto),
+    FOREIGN KEY (ID_Ubicacion) REFERENCES Ubicacion(ID_Ubicacion),
+    FOREIGN KEY (IDCliente) REFERENCES Cliente(IDCliente),
+    FOREIGN KEY (FechaVenta) REFERENCES tiempo(IDTiempo)
+);
+
+
+-- Insertar datos en la tabla Producto
+INSERT INTO producto (IDProducto, NombreProducto, Categoria, Precio)
+VALUES (1, 'Producto A', 'Electrónicos', 499.99),
+       (2, 'Producto B', 'Ropa', 509.99),
+       (3, 'Producto C', 'varios', 639.99),
+       (4, 'Producto D', 'reloj', 839.99),
+       (5, 'Producto E', 'comida', 939.99);
+
+
+SELECT * FROM producto;
+
+-- Insertar datos en la tabla Ubicacion
+INSERT INTO Ubicacion (ID_Ubicacion, NombreTienda, Provincia, Localidad, Pais, CodigoPostal)
+VALUES (1, 'Tienda 1', 'Buenos Aires', 'Buenos Aires', 'Argentina', '8000'),
+       (2, 'Tienda 2', 'Neuquen', 'Neuquen', 'Argentina', '8001'),
+       (3, 'Tienda 3', 'Chubut', 'Chubut', 'Argentina', '8002'),
+       (4, 'Tienda 4', 'Jujuy', 'Jujuy', 'Argentina', '8003'),
+       (5, 'Tienda 5', 'Buenos Aires', 'Buenos Aires', 'Argentina', '8004');
+
+SELECT * FROM ubicacion;
+-- Insertar datos en la tabla Cliente (opcional)
+INSERT INTO Cliente (IDCliente, NombreCliente, Segmento)
+VALUES (1, 'Cliente A', 'Segmento 1'),
+       (2, 'Cliente B', 'Segmento 2'),
+       (3, 'Cliente C', 'Segmento 3'),
+       (4, 'Cliente D', 'Segmento 4'),
+       (5, 'Cliente E', 'Segmento 5');
+
+SELECT * FROM Cliente;
+-- Insertar datos en la tabla Ventas
+INSERT INTO ordenes (IDorden, FechaVenta, IDProducto, ID_Ubicacion, IDCliente, CantidadVendida)
+VALUES (1, 1, 1, 1, 1, 10),
+       (2, 2, 2, 2, 2, 5),
+       (3, 3, 3, 3, 3, 3),
+       (4, 4, 4, 4, 4, 8),
+       (5, 5, 5, 5, 5, 20);
+
+SELECT * FROM ordenes;
+-- Insertar datos en la tabla Tiempo
+INSERT INTO Tiempo (Fecha, Mes, Trimestre, Año, DiaSemana, Festivo)
+VALUES ('2023-01-01', 1, 1, 2023, 'Domingo', TRUE),
+       ('2023-01-02', 1, 1, 2023, 'Lunes', FALSE),
+       ('2023-01-03', 1, 1, 2023, 'Martes', FALSE),
+       ('2023-02-01', 2, 2, 2023, 'viernes', TRUE),
+       ('2023-03-01', 2, 3, 2023, 'viernes', TRUE);
+
+SELECT * FROM Tiempo;
+
+-- Carga de factura
+
+
+UPDATE ordenes o
+JOIN producto p ON p.IDProducto = o.IDProducto
+SET o.Ingresos = o.CantidadVendida*p.Precio;
+
+SELECT * FROM ordenes;
